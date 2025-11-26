@@ -29,14 +29,27 @@ const userSchema = new mongoose.Schema({
   totalOrders : {
     type : Number
   },
-  loyalPoints : {
+  loyaltyPoints : {
     type : Number 
   },
   refreshToken: {
     type: String,
   },
+  refreshTokenExpiresTime : {
+    type : Date
+  },
+  lastlogin : {
+    type : Date,
+    default : Date.now()
+  }
 });
 
 const User = mongoose.model('User', userSchema);
 
 export default User;
+
+//mongodbatlas => api integration 
+
+
+//login register => auth
+

@@ -1,7 +1,10 @@
 import express from 'express'
-
+import dbConnect from './config/database.js';
 
 const app = express() ;
+//NOTE fn used for mongodb connection
+dbConnect()
+
 
 app.get('/', (req,res)=>{
 res.send("Homepage")
