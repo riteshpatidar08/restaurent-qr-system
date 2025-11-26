@@ -9,11 +9,28 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
   },
+  phone : {
+    type : Number 
+  },
   passwordHash: {
     type: String,
   },
+  role : {
+    type : String ,
+    enum : ['customer' , 'admin'],
+    default : 'customer'
+  },
   isActive: {
     type: Boolean,
+  },
+  totalSpend : {
+    type : Number
+  },
+  totalOrders : {
+    type : Number
+  },
+  loyalPoints : {
+    type : Number 
   },
   refreshToken: {
     type: String,
