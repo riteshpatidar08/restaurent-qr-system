@@ -1,32 +1,34 @@
-import express from 'express'
+import express from 'express';
 import dbConnect from './config/database.js';
-
-const app = express() ;
+import authRoutes from './routes/auth.route.js';
+const app = express();
 //NOTE fn used for mongodb connection
-dbConnect()
+dbConnect();
+app.use(express.json())
 
+app.get('/', (req, res) => {
+  res.send('THIS IS MY HOMEPAGE');
+});
 
-app.get('/', (req,res)=>{
-res.send("Homepage")
-})
+app.use('/api/v1/auth', authRoutes);
 
-app.listen(3000, ()=>{
-    console.log(`Server is running on 3000`)
-})
+app.listen(3000, () => {
+  console.log(`Server is running on 3000`);
+});
+ 
 
 
 //git init
 //git status
-//git add 
-//git commit 
-//git push 
+//git add
+//git commit
+//git push
 
-//branches ? local repo ? remote repo ? 
-
+//branches ? local repo ? remote repo ?
 
 //GIT AND GITHUB
 
-//GIT => VERSION CONTROL SYSTEM 
+//GIT => VERSION CONTROL SYSTEM
 
 //resume.pdf => //edit => resume_1.pdf
 
