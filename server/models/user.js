@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
   },
   lastlogin : {
     type : Date,
-    default : Date.now()
+    default : null
   }
 });
 
@@ -57,4 +57,7 @@ export default User;
 
 
 //login register => auth
+
+
+//redux toolkit => async thunk api call => slice main data manage karo
 

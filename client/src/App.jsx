@@ -1,14 +1,26 @@
-import React from 'react'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+
 
 const App = () => {
   return (
-    <div>
-      <h1 className='bg-red-500'>REACT pROJECT</h1>
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+   
+        <Route path="/login" element={<Login />} />
+      
+        <Route path="/register" element={<Register />} />
+      
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
 
 
-//local version => github hosting service repo
+
+
