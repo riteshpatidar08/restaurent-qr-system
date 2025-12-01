@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { User, Mail, Phone, Lock, UserPlus, ArrowRight, UtensilsCrossed, Gift, Award, Percent, Sparkles } from 'lucide-react';
-
+import { useDispatch } from 'react-redux';
+import { register } from '../redux/authSlice';
 
 const Register = () => {
- 
+ const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,19 +17,13 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'phone') {
-      const numericValue = value.replace(/\D/g, '');
-      setFormData((prev) => ({
-        ...prev,
-        [name]: numericValue,
-      }));
-    } else {
+   
       setFormData((prev) => ({
         ...prev,
         [name]: value,
       }));
     }
-  };
+  
 
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
@@ -37,6 +32,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted (UI only):', formData);
+    dispatch(register(formData))
   };
 
   return (

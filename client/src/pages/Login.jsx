@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/authSlice';
 import { Link } from 'react-router-dom';
 import { Mail, Lock, Loader2, ArrowRight, UtensilsCrossed, Award, Gift, Percent } from 'lucide-react';
-
+import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
     email: '',
@@ -24,7 +25,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(formData));
+    dispatch(login(formData)).unwrap().then(()=>{
+      navigate('/')
+    })
   };
 
   return (
@@ -259,3 +262,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

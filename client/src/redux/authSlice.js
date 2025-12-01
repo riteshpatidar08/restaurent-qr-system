@@ -1,14 +1,32 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const login = createAsyncThunk('/auth/login', async (data) => {
+export const login = createAsyncThunk('/auth/login', async (data, thunkApi) => {
   try {
+    console.log(thunkApi)
     const res = await axios.post(
       'http://localhost:3000/api/v1/auth/login',
       data
     );
     return res.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+    return thunkApi.rejectWithValue(error.response.data.message)
+  }
+});
+
+export const register = createAsyncThunk('/auth/register', async (data, thunkApi) => {
+  try {
+    console.log(thunkApi)
+    const res = await axios.post(
+      'http://localhost:3000/api/v1/auth/register',
+      data
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error)
+    return thunkApi.rejectWithValue(error.response.data.message)
+  }
 });
 const authSlice = createSlice({
   name: 'auth',
@@ -16,8 +34,10 @@ const authSlice = createSlice({
     loading: false,
     error: null,
     name: null,
+    role : null,
     email: null,
     accessToken: null,
+    refreshToken : null ,
   },
   extraReducers: (builder) => {
     builder
@@ -25,10 +45,31 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload);
+        console.log(action.payload,action.payload.data.name , action.payload.data.email,action.payload.accessToken)
+        state.name = action.payload.data.name 
+        state.email = action.payload.data.email 
+        state.accessToken = action.payload.accessToken 
+        state.role = action.payload.data.role
+        state.refreshToken = action.payload.refreshToken
+        localStorage.setItem('accessToken', action.payload.accessToken)
+        localStorage.setItem('refreshToken', action.payload.refreshToken)
+        state.loading = false
       })
       .addCase(login.rejected, (state, action) => {
+        console.log(action.payload)
         state.error = action.payload;
+        state.loading = false
+      }) .addCase(register.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.loading = false
+      })
+      .addCase(register.rejected, (state, action) => {
+        console.log(action.payload)
+        state.error = action.payload;
+        state.loading = false
       });
   },
 });
