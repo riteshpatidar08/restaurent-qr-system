@@ -1,7 +1,12 @@
 import express from 'express';
 import dbConnect from './config/database.js';
 import authRoutes from './routes/auth.route.js';
+import cors from 'cors'
 const app = express();
+app.use(cors({
+  origin : ['http://localhost:5173','http://localhost:5174'],
+  
+}))
 //NOTE fn used for mongodb connection
 dbConnect();
 app.use(express.json())
