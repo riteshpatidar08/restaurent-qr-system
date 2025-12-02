@@ -65,6 +65,7 @@ export const Login = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      
     });
     const refreshToken = generateRefreshToken({
       name: user.name,

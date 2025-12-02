@@ -4,6 +4,7 @@ import authRoutes from './routes/auth.route.js';
 import cors from 'cors'
 
 import verifyToken from './middlewares/verifyToken.js';
+import checkRole from './middlewares/checkRole.js';
 const app = express();
 app.use(cors({
   origin : ['http://localhost:5173','http://localhost:5174'],
@@ -12,7 +13,7 @@ app.use(cors({
 //NOTE fn used for mongodb connection
 dbConnect();
 app.use(express.json())
-app.get('/menu', verifyToken, (req,res)=>{
+app.get('/menu', verifyToken, checkRole(['customer', 'admin']), (req,res)=>{
 // if(req.headers.authorization){
 //   return res.send('you can access menu')
 // }else {
