@@ -3,41 +3,55 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Homepage from './pages/Homepage';
+import Welcome from './pages/Welcome';
 import ProtectRoutes from './components/ProtectRoutes';
 import OpenRoutes from './components/OpenRoutes';
+import { ToastProvider } from './context/ToastContext';
+
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            //required accessToken to get this page
-            <ProtectRoutes>
-              <Homepage />
-            </ProtectRoutes>
-          }
-        />
+    <ToastProvider>
+      <Router>
+        <Routes>
+          <Route
+            path="/welcome"
+            element={
+            
+                <Welcome />
+            
+            }
+          />
 
-        <Route
-          path="/login"
-          element={
-            <OpenRoutes>
-              <Login />
-            </OpenRoutes>
-          }
-        />
+          <Route
+            path="/"
+            element={
+              //required accessToken to get this page
+              <ProtectRoutes>
+                <Homepage />
+              </ProtectRoutes>
+            }
+          />
 
-        <Route
-          path="/register"
-          element={
-            <OpenRoutes>
-              <Register />
-            </OpenRoutes>
-          }
-        />
-      </Routes>
-    </Router>
+          <Route
+            path="/login"
+            element={
+              <OpenRoutes>
+                <Login />
+              </OpenRoutes>
+            }
+          />
+
+          <Route
+            path="/register"
+            element={
+              <OpenRoutes>
+                <Register />
+              </OpenRoutes>
+            }
+          />
+        </Routes>
+      </Router>
+    </ToastProvider>
   );
 };
 

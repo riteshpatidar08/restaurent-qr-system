@@ -2,6 +2,8 @@ import express from 'express';
 import dbConnect from './config/database.js';
 import authRoutes from './routes/auth.route.js';
 import cors from 'cors'
+
+import verifyToken from './middlewares/verifyToken.js';
 const app = express();
 app.use(cors({
   origin : ['http://localhost:5173','http://localhost:5174'],
@@ -10,7 +12,13 @@ app.use(cors({
 //NOTE fn used for mongodb connection
 dbConnect();
 app.use(express.json())
-
+app.get('/menu', verifyToken, (req,res)=>{
+// if(req.headers.authorization){
+//   return res.send('you can access menu')
+// }else {
+//   return res.send('you are not authorized , please login')
+// }
+})
 app.get('/', (req, res) => {
   res.send('THIS IS MY HOMEPAGE');
 });
