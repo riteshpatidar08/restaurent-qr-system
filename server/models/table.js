@@ -19,6 +19,10 @@ qrImage : {
 },
 capacity  : {
     type : Number
+},
+isActive : {
+    type : Boolean ,
+    default : true
 }
 })
 

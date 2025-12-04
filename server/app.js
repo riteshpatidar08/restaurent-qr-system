@@ -27,6 +27,15 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1' ,TableRoutes )
+
+//here we placed the global error handleer => 
+  app.use((err,req,res,next)=>{
+    if(err){
+      res.status(err.status || 500).json({
+        messsage : err?.message || 'server error'
+      })
+    }
+  })
 app.listen(3000, () => {
   console.log(`Server is running on 3000`);
 });
