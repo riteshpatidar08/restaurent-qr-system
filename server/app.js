@@ -5,6 +5,7 @@ import cors from 'cors'
 import TableRoutes from './routes/table.route.js'
 import verifyToken from './middlewares/verifyToken.js';
 import checkRole from './middlewares/checkRole.js';
+import sessionRoutes from './routes/session.route.js'
 const app = express();
 app.use(cors({
   origin : ['http://localhost:5173','http://localhost:5174'],
@@ -26,7 +27,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1' ,TableRoutes )
+app.use('/api/v1' ,TableRoutes ) ;
+app.use('/api/v1' , sessionRoutes)
 
 //here we placed the global error handleer => 
   app.use((err,req,res,next)=>{

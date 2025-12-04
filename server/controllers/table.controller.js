@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import QRCode from 'qrcode'; // FIXED IMPORT
 import Table from '../models/table.js';
+import { successResponse } from '../utils/successResponse.js';
 
 export const createTable = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ export const createTable = async (req, res) => {
     const qrSlug = crypto.randomBytes(6).toString('hex');
 
     // Generate QR scanning URL
-    const qrCodeURL = `http://localhost:5173/scan-qr?qr=${qrSlug}`;
+    const qrCodeURL = `http://localhost:5173/welcome?qr=${qrSlug}`;
 
     // Generate QR image (Data URL)
     QRCode.toDataURL(qrCodeURL, async (err, url) => {
@@ -66,6 +67,25 @@ res.status(200).json({
   }
 }
 
+
+//NOTE  task => getAlltables => admin verfiyToken ,checkRole(['admin'])
+export const getAllTables = async(req,res, next)=>{
+  try {
+    const tables = await Table.find();
+    if(tables.length <= 0){
+      const error = new Error("No tables found")
+      error.status = 404 ;
+      throw error
+    }
+   successResponse(res,200,tables)
+  } catch (error) {
+    next(error)
+  }
+}
+
+//update //delete
+
+
 //GLOBAL ERROR HANDLER ? 
 
 //middleware route pehle
@@ -73,3 +93,5 @@ res.status(200).json({
 
 //last controller => error aaya => catch block => next(error) => middleware(globalerror handler) => (err,res,req,next)=> {
   
+//http://localhost:3000/tables/qr/3423erewrwe =< number table
+  //continue as guest 
