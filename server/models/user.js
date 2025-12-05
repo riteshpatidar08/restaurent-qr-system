@@ -61,3 +61,6 @@ export default User;
 
 //redux toolkit => async thunk api call => slice main data manage karo
 
+
+
+//NOTE update table , delete table , user.controller.js , user.routes.js => all users get /token /admin , deactivate user  , update user  , delete user
