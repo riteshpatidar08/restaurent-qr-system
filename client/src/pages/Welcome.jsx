@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UtensilsCrossed, UserPlus, LogIn, User, Sparkles } from 'lucide-react';
-
+import { session } from '../redux/guestSlice';
+import { useDispatch } from 'react-redux';
 const Welcome = () => {
   const navigate = useNavigate();
-
+const dispatch = useDispatch()
   const handleContinueAsGuest = () => {
-    // You can add guest logic here, for now just navigate to homepage
-    // or set a guest flag in localStorage
-    localStorage.setItem('guestMode', 'true');
-    navigate('/');
+  dispatch(session({deviceId : 'dfkdfds' , qrSlug : "bea2d46ee560"}))
+    // localStorage.setItem('guestMode', 'true');
+    // navigate('/');
   };
 
   return (
