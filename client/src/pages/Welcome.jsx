@@ -3,11 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UtensilsCrossed, UserPlus, LogIn, User, Sparkles } from 'lucide-react';
 import { session } from '../redux/guestSlice';
 import { useDispatch } from 'react-redux';
+import { useParams, useSearchParams } from 'react-router-dom';
 const Welcome = () => {
+  console.log(useParams());
+  // /?key=value
+  const [searchParams] = useSearchParams();
+  const qrSlug = searchParams.get('qr');
+
   const navigate = useNavigate();
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
   const handleContinueAsGuest = () => {
-  dispatch(session({deviceId : 'dfkdfds' , qrSlug : "bea2d46ee560"}))
+    dispatch(session({ deviceId: 'dfkdfds', qrSlug }));
     // localStorage.setItem('guestMode', 'true');
     // navigate('/');
   };
@@ -28,9 +35,11 @@ const dispatch = useDispatch()
               <UtensilsCrossed className="w-12 h-12 text-gray-200" />
             </div>
           </div>
-          
+
           <h1 className="text-3xl font-bold text-white mb-3">SavoryBites</h1>
-          <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">Restaurant Management</p>
+          <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">
+            Restaurant Management
+          </p>
           <p className="text-base text-gray-300 max-w-xs mx-auto">
             Experience fine dining with our curated menu and exceptional service
           </p>
@@ -94,4 +103,3 @@ const dispatch = useDispatch()
 };
 
 export default Welcome;
-

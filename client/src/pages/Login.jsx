@@ -27,7 +27,9 @@ const Login = () => {
     e.preventDefault();
     dispatch(login(formData)).unwrap().then(()=>{
       navigate('/')
+      localStorage.removeItem('sessionToken')
     })
+  
   };
 
   return (

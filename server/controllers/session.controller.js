@@ -2,7 +2,7 @@ import Session from '../models/session.js';
 import Table from '../models/table.js';
 import crypto from 'crypto';
 import { successResponse } from '../utils/successResponse.js';
-export const session = async (req, res , next) => {
+export const session = async (req, res, next) => {
   try {
     const { deviceId, qrSlug } = req.body;
 
@@ -12,20 +12,22 @@ export const session = async (req, res , next) => {
 
     const tableNumber = table.tableNumber;
     const sessionToken = crypto.randomBytes(32).toString('hex');
-    console.log(sessionToken);  //expiry time ?
+    console.log(sessionToken); //expiry time ?
 
-    const expiresAt = new Date() ;
-    expiresAt.setHours(expiresAt.getHours() + 24) ;
-console.log(expiresAt.toLocaleString())
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 24);
+    console.log(expiresAt.toLocaleString());
     //fetch session token => expiresAt : {$gt : new Date()}
     const session = new Session({
-      deviceId ,  tableNumber , sessionToken ,expiresAt
-    })
-await session.save() ;
+      deviceId,
+      tableNumber,
+      sessionToken,
+      expiresAt,
+    });
+    await session.save();
 
-successResponse(res, 201 , session)
-
+    successResponse(res, 201, session);
   } catch (error) {
-    next(error)
+    next(error);
   }
 };

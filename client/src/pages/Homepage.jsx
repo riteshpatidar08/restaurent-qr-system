@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+
+
+
 const Homepage = () => {
+
+  
   console.log(localStorage.getItem('accessToken'));
   useEffect(() => {
     axios.get('http://localhost:3000/menu', {

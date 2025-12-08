@@ -38,9 +38,9 @@ const AuthenticatedLayout = () => {
 
          
             <nav className="hidden md:flex items-center gap-6">
-              <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm">
+          {localStorage.getItem('role') === 'admin'   ? <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm">
                 Dashboard
-              </a>
+              </a>  : null}
               <a href="#" className="text-gray-300 hover:text-white transition-colors text-sm">
                 Menu
               </a>

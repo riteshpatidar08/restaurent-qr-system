@@ -7,21 +7,14 @@ import Welcome from './pages/Welcome';
 import ProtectRoutes from './components/ProtectRoutes';
 import OpenRoutes from './components/OpenRoutes';
 import { ToastProvider } from './context/ToastContext';
-
+// import AuthenticatedLayout from './components/AuthenticatedLayout';
 const App = () => {
   return (
     <ToastProvider>
       <Router>
         <Routes>
-          <Route
-            path="/welcome"
-            element={
-            
-                <Welcome />
-            
-            }
-          />
-
+          <Route path="/welcome" element={<Welcome />} />
+          {/* <Route path="/welcome/:id" element={<Welcome />} /> */}
           <Route
             path="/"
             element={
