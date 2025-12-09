@@ -9,10 +9,10 @@ export default defineConfig({
         plugins: [['babel-plugin-react-compiler']],
       },
     }),
-   { 
-    server : '0.0.0.0'
-     
-  },
     tailwindcss()
   ],
+  server: {
+    host: '0.0.0.0', 
+    port: 5173
+  }
 })
