@@ -8,7 +8,7 @@ import checkRole from './middlewares/checkRole.js';
 import sessionRoutes from './routes/session.route.js'
 import menuRoutes from './routes/menu.route.js'
 import dotenv from 'dotenv' ;
-
+import cartRoutes from './routes/cart.route.js'
 dotenv.config() ;
 const app = express();
 app.use(cors({
@@ -33,7 +33,8 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1' ,TableRoutes ) ;
 app.use('/api/v1' , sessionRoutes);
-app.use('/api/v1' , menuRoutes)
+app.use('/api/v1' , menuRoutes);
+app.use('/api/v1' , cartRoutes)
 
 // app.get('/qr' ,(req,res)=>{
 //   res.download()

@@ -1,6 +1,6 @@
 import cloudinary from '../config/cloudinary.js';
 import Menu from '../models/menu.js'
-console.log(cloudinary);
+
 export const createMenu = async (req, res) => {
   // how can i access the image path here
   console.log(req.file);
@@ -24,3 +24,9 @@ export const createMenu = async (req, res) => {
 };
 
 //name ,description ,  price = {req.body};
+
+
+//fetch with category filter 
+//delete 
+//update 
+  
