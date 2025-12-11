@@ -19,15 +19,15 @@ export const addToCart = async (req, res) => {
     }
     // console.log('menu' , menu)
 
-    const existingMenuItem = cart.items.find(
+    const existingMenuItemInCart = cart.items.find(
       (item) => item.menuItemId.toString() === menuItemId
     );
-    console.log(existingMenuItem);
+    console.log(existingMenuItemInCart);
     //existing cart => quantiy += 1  , existing cart.items.push
-    if (!existingMenuItem) {
+    if (!existingMenuItemInCart) {
       cart.items.push({ menuItemId, quantity });
     } else {
-      existingMenuItem.quantity += 1;
+      existingMenuItemInCart.quantity += 1;
     }
 
     cart.totalCartPrice = cart.items.reduce((acc, item) => {
