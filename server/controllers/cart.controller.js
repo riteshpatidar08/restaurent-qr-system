@@ -36,8 +36,8 @@ export const addToCart = async (req, res) => {
     await cart.save();
 
     res.status(201).json({
-        message : "Items added to cart successfully"
-    })
+      message: 'Items added to cart successfully',
+    });
   } catch (error) {}
 };
 
@@ -48,7 +48,7 @@ export const addToCart = async (req, res) => {
 //     items : [{menuItemId : 'fdfsdfjd', quantity : 1}]
 // }
 
-//removeItemCart 
+//removeItemCart
 //increase
 //decrease
 //clear cart

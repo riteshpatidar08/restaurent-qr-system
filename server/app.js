@@ -18,14 +18,6 @@ app.use(cors({
 //NOTE fn used for mongodb connection
 dbConnect();
 app.use(express.json())
-app.get('/menu', verifyToken, checkRole(['customer', 'admin']), (req,res)=>{
-// if(req.headers.authorization){
-//   return res.send('you can access menu')
-// }else {
-//   return res.send('you are not authorized , please login')
-// }
-res.send('menu fetched')
-})
 app.get('/', (req, res) => {
   res.send('THIS IS MY HOMEPAGE');
 });
