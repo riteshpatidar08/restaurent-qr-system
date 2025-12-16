@@ -14,9 +14,10 @@ const Welcome = () => {
   const dispatch = useDispatch();
 
   const handleContinueAsGuest = () => {
-    dispatch(session({ deviceId: 'dfkdfds', qrSlug }));
-    // localStorage.setItem('guestMode', 'true');
-    // navigate('/');
+    // You can add guest logic here, for now just navigate to homepage
+    // or set a guest flag in localStorage
+    localStorage.setItem('guestMode', 'true');
+    navigate('/');
   };
 
   return (

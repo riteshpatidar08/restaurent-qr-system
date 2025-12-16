@@ -17,8 +17,11 @@ export const register = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 12);
     const data = { name, email, phone, passwordHash };
     const newUser = await User.create(data);
+
+    //integrate mail service here
+
     res.status(201).json({
-      messsage: 'success',
+      messsage: 'your account has been successfully created',
       data: newUser,
     });
   } catch (error) {
@@ -93,3 +96,6 @@ export const Login = async (req, res) => {
     });
   }
 };
+
+
+// gaee jvfa mele ukmu

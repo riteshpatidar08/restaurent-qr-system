@@ -48,7 +48,13 @@ export const addToCart = async (req, res) => {
 //     items : [{menuItemId : 'fdfsdfjd', quantity : 1}]
 // }
 
+//NOTE TODO 
+//getCart
 //removeItemCart
 //increase
 //decrease
 //clear cart
+
+//menu controller => isAvailable field true or false
+
+// 6 api's thunk
