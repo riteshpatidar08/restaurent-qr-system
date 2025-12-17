@@ -1,5 +1,5 @@
-const registerTemplate = (CustomerName , RestaurantName) => {
-    return  `Hi ${CustomerName},
+const registerTemplate = (CustomerName, RestaurantName) => {
+  return `Hi ${CustomerName},
     Welcome to ${RestaurantName}! 🎉
     As a thank-you for signing up, here’s a special offer just for you: 
     🎁 Use Code: FIRST30  
@@ -7,8 +7,8 @@ const registerTemplate = (CustomerName , RestaurantName) => {
     Offer valid for a limited time.
     Happy eating! 🍕  
     ${RestaurantName} Team`;
-}
+};
 
-console.log(registerTemplate('ritesh' , 'savouryBites'))
+console.log(registerTemplate('ritesh', 'savouryBites'));
 
-export default registerTemplate
+export default registerTemplate;
