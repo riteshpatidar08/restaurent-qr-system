@@ -111,10 +111,7 @@ const AuthenticatedLayout = ({ children }) => {
               <button
                 className="relative p-2 text-gray-300 hover:text-white transition-colors"
                 aria-label="Shopping cart"
-                onClick={() => {
-                  // TODO: Navigate to cart or open cart sidebar
-                  console.log('Cart clicked');
-                }}
+                onClick={() => navigate('/cart')}
               >
                 <ShoppingCart className="w-6 h-6" />
                 <span className="absolute -top-1 -right-1 bg-white text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
@@ -227,8 +224,7 @@ const AuthenticatedLayout = ({ children }) => {
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
-                  // TODO: Navigate to cart or open cart sidebar
-                  console.log('Cart clicked');
+                  navigate('/cart');
                 }}
                 className="w-full flex items-center gap-2 px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
               >

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Homepage from './pages/Homepage';
+import Cart from './pages/Cart';
 import Welcome from './pages/Welcome';
 import ProtectRoutes from './components/ProtectRoutes';
 import OpenRoutes from './components/OpenRoutes';
@@ -21,6 +22,15 @@ const App = () => {
               //required accessToken to get this page
               <ProtectRoutes>
                 <Homepage />
+              </ProtectRoutes>
+            }
+          />
+
+          <Route
+            path="/cart"
+            element={
+              <ProtectRoutes>
+                <Cart />
               </ProtectRoutes>
             }
           />
