@@ -132,9 +132,9 @@ const Login = () => {
                     Remember me
                   </label>
                 </div>
-                <a href="#" className="text-xs text-white/80 hover:text-white transition-colors">
+                <Link to='/recovery' className="text-xs text-white/80 hover:text-white transition-colors">
                   Forgot password?
-                </a>
+                </Link>
               </div>
 
               <button

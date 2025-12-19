@@ -21,14 +21,13 @@ export const register = async (req, res) => {
     const newUser = await User.create(data);
 
     //integrate mail service here
-   const info = await transporter.sendMail({
-    from: 'riteshpatidar088@gmail.com',
-    to: newUser.email,
-    subject: 'User registration',
-    text: registerTemplate(newUser.name , "SavouryBites") // plain‑text body
-     
-   })
-   console.log('mail sent', info.messageId)
+    const info = await transporter.sendMail({
+      from: 'riteshpatidar088@gmail.com',
+      to: newUser.email,
+      subject: 'User registration',
+      text: registerTemplate(newUser.name, 'SavouryBites'), // plain‑text body
+    });
+    console.log('mail sent', info.messageId);
     res.status(201).json({
       messsage: 'your account has been successfully created',
       data: newUser,
@@ -69,22 +68,23 @@ export const Login = async (req, res) => {
     }
     const isPasswordMatch = await bcrypt.compare(password, user.passwordHash);
 
-    if(!isPasswordMatch){
-      return res.status(400).json({message : 'Password donot match, Please try again'})
+    if (!isPasswordMatch) {
+      return res
+        .status(400)
+        .json({ message: 'Password donot match, Please try again' });
     }
     //  console.log(isPasswordMatch)
     const accessToken = generateAccessToken({
       name: user.name,
       email: user.email,
       role: user.role,
-      id : user._id
-      
+      id: user._id,
     });
     const refreshToken = generateRefreshToken({
       name: user.name,
       email: user.email,
       role: user.role,
-      id : user._id
+      id: user._id,
     });
 
     user.refreshToken = refreshToken;
@@ -106,5 +106,19 @@ export const Login = async (req, res) => {
   }
 };
 
-
 // gaee jvfa mele ukmu
+
+export const searchAccount = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.send('No account found');
+    }
+    res.status(200).json({
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

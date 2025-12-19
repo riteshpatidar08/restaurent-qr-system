@@ -1,5 +1,5 @@
 import Coupan from './../models/coupan.js'
-
+//getallcoupan agar order = 0 first30
 export const getAllCoupans = () => {
   try {
   } catch (error) {}
@@ -55,3 +55,9 @@ export const registerCoupan = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+// validateCoupan 
+
+
+

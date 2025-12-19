@@ -8,6 +8,7 @@ import Welcome from './pages/Welcome';
 import ProtectRoutes from './components/ProtectRoutes';
 import OpenRoutes from './components/OpenRoutes';
 import { ToastProvider } from './context/ToastContext';
+import FindYourAccount from './pages/FindYourAccount';
 // import AuthenticatedLayout from './components/AuthenticatedLayout';
 const App = () => {
   return (
@@ -40,6 +41,14 @@ const App = () => {
             element={
               <OpenRoutes>
                 <Login />
+              </OpenRoutes>
+            }
+          />
+           <Route
+            path="/recovery"
+            element={
+              <OpenRoutes>
+                <FindYourAccount/>
               </OpenRoutes>
             }
           />
