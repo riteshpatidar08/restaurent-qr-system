@@ -2,4 +2,4 @@ client/node_modules
 server/node_modules
 
 
-.envprocess.env.CLOUDINARY_API_KEY
+.env
