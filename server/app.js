@@ -10,8 +10,10 @@ import menuRoutes from './routes/menu.route.js';
 import dotenv from 'dotenv';
 import coupanRoutes from './routes/coupan.route.js';
 import cartRoutes from './routes/cart.route.js';
+import orderRoutes from './routes/order.routes.js'
 dotenv.config();
 const app = express();
+
 app.use(
   cors({
     origin: ['http://localhost:5173', 'http://localhost:5174'],
@@ -30,6 +32,7 @@ app.use('/api/v1', sessionRoutes);
 app.use('/api/v1', menuRoutes);
 app.use('/api/v1', cartRoutes);
 app.use('/api/v1', coupanRoutes);
+app.use('/api/v1', orderRoutes)
 // app.get('/qr' ,(req,res)=>{
 //   res.download()
 // })
@@ -71,3 +74,25 @@ app.listen(3000, () => {
 //user + table version _ 2
 
 // user + table version => refresh token
+
+
+
+
+
+
+//CORS => cross origin resoucre sharing ;
+
+//client => server 
+// url => url 
+// protocal , domainName/ip , port 
+// http://localhost:5173 //client
+// http://localhost:3000 // server  first port 
+
+
+// http://127.0.0.1:3000 //client
+// https://localhost:3000 // server  first port
+
+//port alag cors , domain/ip => cors => protocal cors  ;
+
+// /orders => execute => re //cors
+// res.header('allow-')

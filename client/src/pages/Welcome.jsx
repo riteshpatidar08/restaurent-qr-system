@@ -13,11 +13,26 @@ const Welcome = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleContinueAsGuest = () => {
-    // You can add guest logic here, for now just navigate to homepage
-    // or set a guest flag in localStorage
-    localStorage.setItem('guestMode', 'true');
-    navigate('/');
+  const getDeviceId = () => {
+    let id = localStorage.getItem("deviceId");
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem("deviceId", id);
+    }
+    return id;
+  };
+ 
+  const handleContinueAsGuest = async () => {
+    try {
+      const qrSlug = searchParams.get("qr");
+      const deviceId = getDeviceId();
+ 
+      await dispatch(session({ deviceId, qrSlug })).unwrap();
+      // success("Guest session started");
+      navigate("/");
+    } catch (err) {
+      // toastError("Guest login failed");
+    }
   };
 
   return (

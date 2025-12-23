@@ -9,6 +9,7 @@ import ProtectRoutes from './components/ProtectRoutes';
 import OpenRoutes from './components/OpenRoutes';
 import { ToastProvider } from './context/ToastContext';
 import FindYourAccount from './pages/FindYourAccount';
+import Dashboard from './pages/Dashboard';
 // import AuthenticatedLayout from './components/AuthenticatedLayout';
 const App = () => {
   return (
@@ -35,6 +36,14 @@ const App = () => {
               </ProtectRoutes>
             }
           />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectRoutes>
+                <Dashboard />
+              </ProtectRoutes>
+            }
+          />
 
           <Route
             path="/login"
@@ -44,11 +53,11 @@ const App = () => {
               </OpenRoutes>
             }
           />
-           <Route
+          <Route
             path="/recovery"
             element={
               <OpenRoutes>
-                <FindYourAccount/>
+                <FindYourAccount />
               </OpenRoutes>
             }
           />

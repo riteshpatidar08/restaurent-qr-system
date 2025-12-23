@@ -101,3 +101,10 @@ export const getAllTables = async (req, res, next) => {
 
 //http://localhost:3000/tables/qr/3423erewrwe =< number table
 //continue as guest
+
+
+
+// accesstoken => authenticate/login => token /verfiy 401 table action refresh refresh
+
+// /refresh token => refresh token usko first expiration => naya banakar => localstorage 
+
