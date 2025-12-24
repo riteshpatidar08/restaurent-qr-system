@@ -1,16 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-
+import api from '../lib/api'
 // Fetch all menu items
+console.log(api)
 export const fetchMenuItems = createAsyncThunk(
   'menu/fetchMenuItems',
   async (category, thunkApi) => {
     try {
       const url = category && category !== 'All'
-        ? `http://localhost:3000/api/v1/menu?category=${category}`
-        : 'http://localhost:3000/api/v1/menu';
+        ? `/menu?category=${category}`
+        : '/v1/menu';
       
-      const res = await axios.get(url);
+      const res = await api.get(url);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -81,3 +82,13 @@ const menuSlice = createSlice({
 export default menuSlice.reducer;
 export const { setSelectedCategory, setSearchQuery, clearMenuItems } = menuSlice.actions;
 
+
+
+
+// 100 api => 100 refresh() ;
+
+//request 
+
+// url request method alag - alag
+
+//response common

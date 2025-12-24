@@ -10,8 +10,10 @@ import OpenRoutes from './components/OpenRoutes';
 import { ToastProvider } from './context/ToastContext';
 import FindYourAccount from './pages/FindYourAccount';
 import Dashboard from './pages/Dashboard';
+
 // import AuthenticatedLayout from './components/AuthenticatedLayout';
 const App = () => {
+
   return (
     <ToastProvider>
       <Router>

@@ -1,6 +1,7 @@
 import express from 'express' ;
-import { Login, register, searchAccount } from '../controllers/auth.controller.js';
+import { Login, refresh, register, searchAccount } from '../controllers/auth.controller.js';
 import SessionTokenVerfiy from '../middlewares/SessionTokenVerfiy.js';
+import verifyToken from '../middlewares/verifyToken.js';
 const router = express.Router() ;
 
 router.post('/register',register )
@@ -15,6 +16,10 @@ router.post('/convert' , SessionTokenVerfiy , (req,res)=>{
     // session.convertedSession = true ;
     // await session.save()
 })
+
+router.post('/refresh' ,   refresh)
+
+
 export default router
 
 

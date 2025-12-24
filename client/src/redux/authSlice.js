@@ -39,7 +39,7 @@ const authSlice = createSlice({
     name: localStorage.getItem('name') || null,
     role: localStorage.getItem('role') || null,
     email: null,
-    accessToken: null,
+    accessToken: localStorage.getItem('accessToken') || null ,
     refreshToken: null,
   },
   reducers: {
