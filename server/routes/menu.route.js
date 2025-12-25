@@ -1,11 +1,11 @@
 import express from 'express' ;
 import { createMenu, getAllMenuItems } from '../controllers/menu.controlller.js';
-// import verifyToken from '../middlewares/verifyToken';
+import verifyToken from '../middlewares/verifyToken.js';
 
 import upload from '../middlewares/upload.js';
 const router = express.Router() ;
 
-router.get('/menu', getAllMenuItems);
+router.get('/menu',   getAllMenuItems);
 router.post('/menu' , upload.single('image') , createMenu)
 
 export default router

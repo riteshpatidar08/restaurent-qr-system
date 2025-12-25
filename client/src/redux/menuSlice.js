@@ -12,6 +12,7 @@ export const fetchMenuItems = createAsyncThunk(
         : '/v1/menu';
       
       const res = await api.get(url);
+      console.log(res)
       return res.data;
     } catch (error) {
       console.log(error);

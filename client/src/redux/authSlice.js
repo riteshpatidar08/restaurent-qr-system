@@ -50,6 +50,7 @@ const authSlice = createSlice({
       localStorage.removeItem('accessToken');
       localStorage.removeItem('name');
       localStorage.removeItem('role');
+      localStorage.removeItem('refreshToken')
       state.refreshToken = null;
       state.accessToken = null;
     },

@@ -57,7 +57,8 @@ export const registerCoupan = async (req, res) => {
 };
 
 
-// validateCoupan 
+//validateCoupan 
 
+//apply coupan
 
 
