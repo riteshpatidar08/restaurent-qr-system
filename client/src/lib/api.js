@@ -37,7 +37,9 @@ console.log(error.config)
         //1save it to local
         // then call the api again
       } catch (error) {
-        console.log(error);
+
+        console.log(error);   
+        //handle the case of navigation to the login page in case we get error navigate it to login page.
       }
     }
     //   } else if (error.response.status === 500) {

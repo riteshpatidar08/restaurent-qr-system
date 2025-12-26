@@ -1,7 +1,64 @@
-import Coupan from './../models/coupan.js'
+import Coupan from './../models/coupan.js';
+import Cart from '../models/cart.js';
 //getallcoupan agar order = 0 first30
-export const getAllCoupans = () => {
+export const getAllCoupans = async (req, res) => {
   try {
+    const { cartTotal } = req.query;
+    const userId = req.user.id;
+
+    //user cart fetch //totalCartPrice ;
+    const cart = await Cart.findOne({ userId });
+    let totalCartPrice;
+    if (cart) {
+      totalCartPrice = cart.totalCartPrice;
+    }
+    console.log(totalCartPrice);
+
+    //how to fetch all coupans than apply map method ;
+    const allCoupans = await Coupan.find();
+    console.log(allCoupans);
+
+    const AvailableCoupans = allCoupans.filter((coupan) => {
+      return (
+        totalCartPrice > coupan.minOrderAmount &&
+        new Date() > coupan.validFrom &&
+        new Date() < coupan.validTo
+      );
+    });
+    // console.log(filteredCoupans)
+    //discount value again the totalprice ;
+    let totalValueAfterDiscount;
+    const CoupansAfterCalculation = AvailableCoupans.map((coupans) => {
+      if (coupans.discountType) {
+        if (coupans.discountType === 'fixedAmount') {
+          totalValueAfterDiscount = totalCartPrice - coupans.discountValue;
+        }
+        if (coupans.discountType === 'percentage') {
+          totalValueAfterDiscount =
+            (totalCartPrice * coupans.discountValue) / 100;
+        }
+        if (
+          coupans.maxDiscount &&
+          totalValueAfterDiscount > coupans.maxDiscount
+        ) {
+          totalValueAfterDiscount = coupans.maxDiscount;
+        }
+      }
+      return {
+        totalValueAfterDiscount,
+        finalAmount: totalCartPrice - totalValueAfterDiscount,
+        code: coupans.code,
+        discountType: coupans.discountType,
+        description: coupans.description,
+      };
+    });
+    //  500 * 10 / 100 => 50
+    //1000 * 10 / 100 => 100   maxDiscount = 150
+    //2000 * 10 / 200 > maxDiscount = 150
+    // disocuntValue = maxDiscount;
+    res.json({
+      CoupansAfterCalculation,
+    });
   } catch (error) {}
 };
 
@@ -55,10 +112,3 @@ export const registerCoupan = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
-
-//validateCoupan 
-
-//apply coupan
-
-
