@@ -32,7 +32,8 @@ const userSchema = new mongoose.Schema({
     type : Number
   },
   totalOrders : {
-    type : Number
+    type : Number,
+    default : 0
   },
   loyaltyPoints : {
     type : Number 

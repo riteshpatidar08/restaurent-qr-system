@@ -12,3 +12,7 @@ const dbConnect = async () => {
 };
 
 export default dbConnect;
+
+
+
+// search => r => api call  ri => api ritesh

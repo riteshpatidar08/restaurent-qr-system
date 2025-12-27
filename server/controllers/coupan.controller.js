@@ -1,11 +1,14 @@
 import Coupan from './../models/coupan.js';
 import Cart from '../models/cart.js';
+import User from '../models/user.js';
 //getallcoupan agar order = 0 first30
 export const getAllCoupans = async (req, res) => {
   try {
     const { cartTotal } = req.query;
     const userId = req.user.id;
 
+    const user = await User.findById(userId);
+    console.log('fetched from database', user);
     //user cart fetch //totalCartPrice ;
     const cart = await Cart.findOne({ userId });
     let totalCartPrice;
@@ -18,38 +21,58 @@ export const getAllCoupans = async (req, res) => {
     const allCoupans = await Coupan.find();
     console.log(allCoupans);
 
-    const AvailableCoupans = allCoupans.filter((coupan) => {
-      return (
-        totalCartPrice > coupan.minOrderAmount &&
-        new Date() > coupan.validFrom &&
-        new Date() < coupan.validTo
-      );
-    });
+    // const AvailableCoupans = allCoupans.filter((coupan) => {
+    //   return (
+    //     totalCartPrice > coupan.minOrderAmount &&
+    //     new Date() > coupan.validFrom &&
+    //     new Date() < coupan.validTo
+    //   );
+    // });
     // console.log(filteredCoupans)
     //discount value again the totalprice ;
-    let totalValueAfterDiscount;
-    const CoupansAfterCalculation = AvailableCoupans.map((coupans) => {
+
+    const CoupansAfterCalculation = allCoupans.map((coupans) => {
+      //calculate isAvailable flag
+      const isCartPriceMeetsMinOrderAmount =
+        totalCartPrice > coupans.minOrderAmount;
+      const isCoupanIsValid =
+        new Date() > coupans.validFrom && new Date() < coupans.validTo;
+      const isUserFirstTime = user.totalOrders === 0;
+      const isCoupanIsForFirstOrder = coupans.isFirstOrder;
+      console.log(coupans.code, isCartPriceMeetsMinOrderAmount);
+
+      const isAvailable =
+        isCartPriceMeetsMinOrderAmount &&
+        isCoupanIsValid &&
+        (isCoupanIsForFirstOrder ? isUserFirstTime : true);
+
+      let discountAmount;
       if (coupans.discountType) {
         if (coupans.discountType === 'fixedAmount') {
-          totalValueAfterDiscount = totalCartPrice - coupans.discountValue;
+          discountAmount = totalCartPrice - coupans.discountValue;
         }
         if (coupans.discountType === 'percentage') {
-          totalValueAfterDiscount =
-            (totalCartPrice * coupans.discountValue) / 100;
+          discountAmount = (totalCartPrice * coupans.discountValue) / 100;
         }
-        if (
-          coupans.maxDiscount &&
-          totalValueAfterDiscount > coupans.maxDiscount
-        ) {
-          totalValueAfterDiscount = coupans.maxDiscount;
+        if (coupans.maxDiscount && discountAmount > coupans.maxDiscount) {
+          discountAmount = coupans.maxDiscount;
         }
       }
       return {
-        totalValueAfterDiscount,
-        finalAmount: totalCartPrice - totalValueAfterDiscount,
+        _id: coupans._id,
+
+        finalAmount: totalCartPrice - discountAmount,
         code: coupans.code,
         discountType: coupans.discountType,
         description: coupans.description,
+        discountAmount,
+        isFirstOrder: coupans.isFirstOrder,
+        minOrderAmount: coupans.minOrderAmount,
+        validFrom: coupans.validFrom,
+        validTo: coupans.validTo,
+        isAvailable,
+        isCartPriceMeetsMinOrderAmount,
+        totalCartPrice,
       };
     });
     //  500 * 10 / 100 => 50
@@ -112,3 +135,17 @@ export const registerCoupan = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+
+
+
+//NOTE js? data type=> primitiv and non primitve 
+// memory allocation  , dynamically type language  statically typed languages
+//client js and server js kya difference ?
+//type coersion and conversion ? Number('5')
+//truthy and falsy values ? falsy => null , undefined , '' , NaN , -0 , 0 ,false
+
+// null && 0 
+// false && false
+// null
+
