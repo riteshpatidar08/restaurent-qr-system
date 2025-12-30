@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import User from '../models/user.js';
 const checkGuestOrUser = async (req , res , next) => {
     try {
         if (req.headers.authorization) {
