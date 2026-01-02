@@ -39,8 +39,10 @@ app.use('/api/v1', orderRoutes)
 //here we placed the global error handleer =>
 app.use((err, req, res, next) => {
   if (err) {
+    console.log(err)
     //TODO here you have to create a log file and call the logger.error method to save the information regarding every error you get in this project
     res.status(err.status || 500).json({
+      
       messsage: err?.message || 'server error',
     });
   }

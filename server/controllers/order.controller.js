@@ -1,6 +1,8 @@
+import User from '../models/user.js';
 import Cart from '../models/cart.js';
 import Coupan from '../models/coupan.js';
-
+import Order from '../models/order.js';
+import razorpay from '../config/razorpay.js';
 const calculateOrderNumber = () => {
   const date = Date.now();
   const randomNumber = Math.floor(Math.random() * 10000000);
@@ -15,7 +17,7 @@ export const createOrder = async (req, res, next) => {
     customerEmail,
     customerPhone,
     notes,
-    paymentMode,
+    paymentMethod,
   } = req.body;
   if (!tableNumber) {
     const error = new Error('No table Found');
@@ -28,6 +30,8 @@ export const createOrder = async (req, res, next) => {
       userId = req.user.id;
     }
     console.log(userId);
+    const user = await User.findById(userId);
+    console.log(user);
     const cartItems = await Cart.findOne({ userId }).populate(
       'items.menuItemId'
     );
@@ -63,16 +67,48 @@ export const createOrder = async (req, res, next) => {
     const dataOfOrder = {
       orderNumber,
       userId,
-      sessionToken: sessionToken || null,
+      sessionToken: null,
       items: orderItems,
       subTotal,
       coupanCode,
       tableNumber,
       customerEmail,
       customerName,
+      paymentMethod,
       customerPhone,
       notes,
     };
+
+    if (paymentMethod === 'cash') {
+      const order = await Order.create(dataOfOrder);
+    return   res.status(201).json({
+        message: 'Order Placed Successfully',
+        data: order,
+      });
+    }
+
+    if (paymentMethod === 'razorpay') {
+      console.log('this is runnnnnnnnnnnnnnnning')
+      const options = {
+        amount: subTotal,
+        currency: 'INR',
+        receipt: orderNumber,
+        notes: {
+          customerEmail,
+          customerPhone,
+          customerName,
+        },
+      };
+      const order = await razorpay.orders.create(options);
+      console.log(order)
+  return    res.json(order);
+    }
+
+    user.totalOrders += 1;
+    await user.save();
+    cartItems.items = [];
+    cartItems.totalCartPrice = 0;
+    await cartItems.save();
 
     res.json({ cartItems, orderItems, coupan });
   } catch (error) {
