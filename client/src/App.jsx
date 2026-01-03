@@ -10,6 +10,7 @@ import OpenRoutes from './components/OpenRoutes';
 import { ToastProvider } from './context/ToastContext';
 import FindYourAccount from './pages/FindYourAccount';
 import Dashboard from './pages/Dashboard';
+import Checkout from './pages/Checkout';
 
 // import AuthenticatedLayout from './components/AuthenticatedLayout';
 const App = () => {
@@ -29,6 +30,8 @@ const App = () => {
               </ProtectRoutes>
             }
           />
+
+          <Route path='/checkout' element={<ProtectRoutes><Checkout/></ProtectRoutes>}/>
 
           <Route
             path="/cart"

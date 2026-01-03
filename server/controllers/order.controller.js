@@ -81,16 +81,16 @@ export const createOrder = async (req, res, next) => {
 
     if (paymentMethod === 'cash') {
       const order = await Order.create(dataOfOrder);
-    return   res.status(201).json({
+      return res.status(201).json({
         message: 'Order Placed Successfully',
         data: order,
       });
     }
 
     if (paymentMethod === 'razorpay') {
-      console.log('this is runnnnnnnnnnnnnnnning')
+      console.log('this is runnnnnnnnnnnnnnnning');
       const options = {
-        amount: subTotal,
+        amount: subTotal * 100,
         currency: 'INR',
         receipt: orderNumber,
         notes: {
@@ -99,10 +99,16 @@ export const createOrder = async (req, res, next) => {
           customerName,
         },
       };
-      const order = await razorpay.orders.create(options);
-      console.log(order)
-  return    res.json(order);
-    }
+      const razorpayOrder = await razorpay.orders.create(options);
+      console.log(razorpayOrder);
+      dataOfOrder.razorPayOrderId = razorpayOrder.id;
+      const order = await Order.create(dataOfOrder);
+
+      return res.json({
+        order,
+      razorPayOrder : {...razorpayOrder , key : process.env.RAZORPAY_API_KEY}
+      });
+  }
 
     user.totalOrders += 1;
     await user.save();
