@@ -1,7 +1,10 @@
 import React from 'react';
 import api from '../lib/api';
 import { useEffect } from 'react';
+import { useToast } from '../context/ToastContext';
+import Toast from '../components/Toast';
 function Checkout() {
+  const toast = useToast();
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -27,13 +30,19 @@ function Checkout() {
       const options = {
         key: result.data.razorPayOrder.key,
         amount: result.data.razorPayOrder.amount,
+        order_id : result.data.order.razorPayOrderId,
         currency: 'INR',
         name: 'SavoryBites',
         description: 'Test Transaction',
-        handler: function (response) {
+        handler: async function (response) {
           console.log(response);
           alert(`Payment ID: ${response.razorpay_payment_id}`);
+          const result = await api.post('v1/verify/payment', {paymentId : response.razorpay_payment_id , razorPayOrderId : response.razorpay_order_id , signature : response.razorpay_signature } );
+          if(result.data.success){
+            toast.success('Payment Successfull' , 'order confirmed')
+          }
         },
+
         prefill: {
           name: result.data.order.customerName,
           email: result.data.order.customerEmail,
