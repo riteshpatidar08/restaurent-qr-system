@@ -3,6 +3,7 @@ import Cart from '../models/cart.js';
 import Coupan from '../models/coupan.js';
 import Order from '../models/order.js';
 import razorpay from '../config/razorpay.js';
+import crypto from 'crypto';
 const calculateOrderNumber = () => {
   const date = Date.now();
   const randomNumber = Math.floor(Math.random() * 10000000);
@@ -106,9 +107,9 @@ export const createOrder = async (req, res, next) => {
 
       return res.json({
         order,
-      razorPayOrder : {...razorpayOrder , key : process.env.RAZORPAY_API_KEY}
+        razorPayOrder: { ...razorpayOrder, key: process.env.RAZORPAY_API_KEY },
       });
-  }
+    }
 
     user.totalOrders += 1;
     await user.save();
@@ -162,3 +163,43 @@ export const createOrder = async (req, res, next) => {
 
 // myorder => shirt , jeans => shirt => 2 => 500
 // shirt + jeans => subtotal
+
+export const verifyPayment = async (req, res, next) => {
+  try {
+    const { paymentId, signature, razorPayOrderId } = req.body;
+    const order = await Order.findOne({ razorPayOrderId });
+    if (!order) {
+      const error = new Error('order not found');
+      throw error;
+    }
+    const generated_signature = crypto
+      .createHmac('sha256', process.env.RAZORPAY_API_SECRET)
+      .update(razorPayOrderId + '|' + paymentId)
+      .digest('hex');
+
+    if (generated_signature !== signature) {
+      res
+        .status(400)
+        .json({ success: false, message: 'Payment verification failed!' });
+    }
+
+    const payment = await razorpay.payments.fetch(paymentId);
+    console.log(payment);
+
+    if (payment.status === 'captured' || payment.status === 'authorized') {
+      order.paymentStatus = 'confirmed';
+      order.razorPaySignature = signature;
+      order.razorPayPaymentId = paymentId;
+      await order.save();
+    } else if (payment.status === 'failed') {
+      order.paymentStatus = 'failed';
+      await order.save();
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Payment Verified',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
