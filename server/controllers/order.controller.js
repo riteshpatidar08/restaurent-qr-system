@@ -104,12 +104,20 @@ export const createOrder = async (req, res, next) => {
       console.log(razorpayOrder);
       dataOfOrder.razorPayOrderId = razorpayOrder.id;
       const order = await Order.create(dataOfOrder);
-
+      const io = req.app.get('io')
+   
+      console.log(io)
+      try{
+       io.emit('order' , 'ready')
+      }catch(error){
+   console.log('socket erorr' ,error)
+      }
       return res.json({
         order,
         razorPayOrder: { ...razorpayOrder, key: process.env.RAZORPAY_API_KEY },
       });
     }
+ 
 
     user.totalOrders += 1;
     await user.save();
@@ -199,6 +207,7 @@ export const verifyPayment = async (req, res, next) => {
       success: true,
       message: 'Payment Verified',
     });
+    // io.emit('order' , order)
   } catch (error) {
     next(error);
   }

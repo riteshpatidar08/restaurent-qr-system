@@ -11,8 +11,26 @@ import dotenv from 'dotenv';
 import coupanRoutes from './routes/coupan.route.js';
 import cartRoutes from './routes/cart.route.js';
 import orderRoutes from './routes/order.routes.js'
+import {Server} from 'socket.io'
 dotenv.config();
+import {createServer} from 'http' ;
+
 const app = express();
+const server = createServer(app)
+const io = new Server(server , {
+  cors : {
+    origin : '*'
+  }
+})
+console.log(io)
+
+app.set('io' , io)
+
+io.on('connection', (socket) => {
+  console.log('user connected');
+});
+
+
 
 app.use(
   cors({
@@ -23,6 +41,7 @@ app.use(
 dbConnect();
 app.use(express.json());
 app.get('/', (req, res) => {
+  io.emit('order' , {orderid : 1 , amount : 3000})
   res.send('THIS IS MY HOMEPAGE');
 });
 
@@ -48,7 +67,7 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(3000, () => {
+server.listen(3000, () => {
   console.log(`Server is running on 3000`);
 });
 

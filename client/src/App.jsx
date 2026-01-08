@@ -11,10 +11,24 @@ import { ToastProvider } from './context/ToastContext';
 import FindYourAccount from './pages/FindYourAccount';
 import Dashboard from './pages/Dashboard';
 import Checkout from './pages/Checkout';
-
+import { io } from 'socket.io-client';
+import { useEffect } from 'react';
+import { Alert } from 'flowbite-react';
+// import { useToast } from './context/ToastContext';
+// import Toast from '../components/Toast';
 // import AuthenticatedLayout from './components/AuthenticatedLayout';
 const App = () => {
+// const toast = useToast()
+  const socket = io('http://localhost:3000');
 
+  useEffect(()=>{
+    socket.on('order' ,(data)=>{
+      alert(`your order status has been updated to ${data}`)
+  },[])
+
+
+
+})
   return (
     <ToastProvider>
       <Router>
@@ -31,7 +45,14 @@ const App = () => {
             }
           />
 
-          <Route path='/checkout' element={<ProtectRoutes><Checkout/></ProtectRoutes>}/>
+          <Route
+            path="/checkout"
+            element={
+              <ProtectRoutes>
+                <Checkout />
+              </ProtectRoutes>
+            }
+          />
 
           <Route
             path="/cart"
